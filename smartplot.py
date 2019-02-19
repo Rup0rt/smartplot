@@ -3,6 +3,7 @@
 import sys
 import matplotlib.pyplot as plt
 import matplotlib.dates as pltdates
+from matplotlib.backends.backend_pdf import PdfPages
 
 # init S.M.A.R.T. ids
 idstr = { 1: "Raw_Read_Error_Rate",
@@ -74,20 +75,26 @@ csvfile.close()
 print("Time range: " + times[0] + " - " + times[-1])
 print("Got " + str(len(times)) + " values...")
 
-# plot data
-for id in data:
-  # get proper id name string
-  if id in idstr:
-    idname = idstr[id]
-  else:
-    idname = "Unknown_HDD_Attribute_" + str(id)
+# prepare PDF
+with PdfPages('output.pdf') as pdf:
+# TODO: pdf metadata
 
-  print("Plotting " + idname + "...")
+  # plot data
+  for id in data:
+    # get proper id name string
+    if id in idstr:
+      idname = idstr[id]
+    else:
+      idname = "Unknown_HDD_Attribute_" + str(id)
 
-  # begin plot
-  plt.title(idname)
-  dates = pltdates.datestr2num(times)
-  plt.plot_date(dates, data[id])
-  plt.ylabel("Raw Value")
-  plt.xlabel("Time")
-  plt.show()
+    print("Plotting " + idname + "...")
+
+    # begin plot
+    plt.figure(figsize=(20,10))
+    plt.title(idname)
+    dates = pltdates.datestr2num(times)
+    plt.plot_date(dates, data[id])
+    plt.ylabel("Raw Value")
+    plt.xlabel("Time")
+    pdf.savefig()
+    plt.close()
