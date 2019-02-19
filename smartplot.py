@@ -69,9 +69,15 @@ print("Got " + str(len(times)) + " values...")
 
 # plot data
 for id in data:
-  idname = idstr[id]
+  # get proper id name string
+  if id in idstr:
+    idname = idstr[id]
+  else:
+    idname = "Unknown_HDD_Attribute_" + str(id)
+
   print("Plotting " + idname + "...")
 
+  # begin plot
   plt.title(idname)
   dates = pltdates.datestr2num(times)
   plt.plot_date(dates, data[id])
