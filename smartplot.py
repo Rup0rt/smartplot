@@ -14,14 +14,21 @@ idstr = { 1: "Raw_Read_Error_Rate",
           8: "Seek_Time_Performance",
           9: "Power_On_Hours",
           10: "Spin_Retry_Count",
+          11: "Calibration_Retry_Count",
           12: "Power_Cycle_Count",
+          184: "End-to-End_Error",
+          187: "Reported_Uncorrect",
+          188: "Command_Timeout",
+          190: "Airflow_Temperature_Cel",
           192: "Power-Off_Retract_Count",
           193: "Load_Cycle_Count",
           194: "Temperature_Celsius",
+          195: "Hardware_ECC_Recovered",
           196: "Reallocated_Event_Count",
           197: "Current_Pending_Sector",
           198: "Offline_Uncorrectable",
-          199: "UDMA_CRC_Error_Count" }
+          199: "UDMA_CRC_Error_Count",
+          200: "Multi_Zone_Error_Rate" }
 
 # get filename
 if len(sys.argv) != 2:
