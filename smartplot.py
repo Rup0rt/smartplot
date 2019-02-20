@@ -10,7 +10,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 # config data
 outputfile = "output.pdf"
 lastdays = 0
-event = ""
+event = "" # FORMAT: "DD.MM.YYYY HH:MM"
 
 # init S.M.A.R.T. ids
 idstr = { 1: "Raw_Read_Error_Rate",
@@ -59,6 +59,8 @@ tslimit = time.time() - (lastdays*24*60*60)
 # calc event ts
 if event != "":
   eventts = time.mktime(datetime.datetime.strptime(event, "%d.%m.%Y %H:%M").timetuple())
+  if lastdays > 0 and eventts < tslimit:
+    print("WARNING: Event date is outside of plot limit.")
   eventobj = datetime.datetime.fromtimestamp(eventts)
 
 # since smartd uses 2-character-separator (;\t), we need to split ourself
