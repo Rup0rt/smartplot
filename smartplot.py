@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 
 import sys
+import datetime
 import matplotlib.pyplot as plt
 import matplotlib.dates as pltdates
 from matplotlib.backends.backend_pdf import PdfPages
+
+# config data
+outputfile = "output.pdf"
 
 # init S.M.A.R.T. ids
 idstr = { 1: "Raw_Read_Error_Rate",
@@ -76,8 +80,15 @@ print("Time range: " + times[0] + " - " + times[-1])
 print("Got " + str(len(times)) + " values...")
 
 # prepare PDF
-with PdfPages('output.pdf') as pdf:
-# TODO: pdf metadata
+with PdfPages(outputfile) as pdf:
+  # fill pdf info data
+  info = pdf.infodict()
+  info['Title'] = 'Analysis of ' + source
+  info['Author'] = 'smartplot'
+  info['Subject'] = 'Analysis of ' + source
+  info['Keywords'] = 'S.M.A.R.T. hdd disk analysis'
+  info['CreationDate'] = datetime.datetime(2009, 11, 13)
+  info['ModDate'] = datetime.datetime.today()
 
   # plot data
   for id in data:
@@ -98,3 +109,5 @@ with PdfPages('output.pdf') as pdf:
     plt.xlabel("Time")
     pdf.savefig()
     plt.close()
+
+    break
