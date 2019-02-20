@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import time
 import datetime
 import matplotlib.pyplot as plt
 import matplotlib.dates as pltdates
@@ -8,6 +9,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 # config data
 outputfile = "output.pdf"
+lastdays = 0
 
 # init S.M.A.R.T. ids
 idstr = { 1: "Raw_Read_Error_Rate",
@@ -46,6 +48,9 @@ source = sys.argv[1]
 times = []
 data = {}
 
+# calc last day timestamp
+tslimit = time.time() - (lastdays*24*60*60)
+
 # since smartd uses 2-character-separator (;\t), we need to split ourself
 csvfile = open(source, "r")
 while True:
@@ -56,7 +61,15 @@ while True:
   parts = line.split(";\t")
   timeval = parts[0]
 
-  # collect time (example: 2016-11-18 13:13:59)
+  # skip entry if daylimit is not reached
+  if (lastdays > 0):
+    # calc ts (example: 2016-11-18 13:13:59)
+    ts = time.mktime(datetime.datetime.strptime(timeval, "%Y-%m-%d %H:%M:%S").timetuple())
+    # limit reached?
+    if ts < tslimit:
+      continue
+
+  # collect time
   times.append(timeval)
 
   # handle attributes
