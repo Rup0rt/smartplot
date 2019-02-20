@@ -9,7 +9,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 # config data
 outputfile = "output.pdf"
-lastdays = 150
+lastdays = 0
 
 # init S.M.A.R.T. ids
 idstr = { 1: "Raw_Read_Error_Rate",
@@ -35,7 +35,11 @@ idstr = { 1: "Raw_Read_Error_Rate",
           197: "Current_Pending_Sector",
           198: "Offline_Uncorrectable",
           199: "UDMA_CRC_Error_Count",
-          200: "Multi_Zone_Error_Rate" }
+          200: "Multi_Zone_Error_Rate",
+          201: "Soft_Read_Error_Rate",
+          221: "G-Sense_Error_Rate",
+          225: "Load-Unload_Cycle_Count",
+          228: "Power-Off_Retract_Cycle" }
 
 # get filename
 if len(sys.argv) != 2:
