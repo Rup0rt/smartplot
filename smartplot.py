@@ -85,10 +85,11 @@ while True:
 
     # prepare array
     if not id in data:
-      data[id] = []
+      data[id] = { 'raw': [], 'value': [] }
 
     # collect data in array
-    data[id].append(rawvalue)
+    data[id]['raw'].append(rawvalue)
+    data[id]['value'].append(value)
 
 csvfile.close()
 
@@ -117,12 +118,22 @@ with PdfPages(outputfile) as pdf:
 
     print("Plotting " + idname + "...")
 
-    # begin plot
+    # plot raw value
     plt.figure(figsize=(20,10))
-    plt.title(idname)
+    plt.title(idname + " (RAW_VALUE)")
     dates = pltdates.datestr2num(times)
-    plt.plot_date(dates, data[id])
-    plt.ylabel("Raw Value")
+    plt.plot_date(dates, data[id]['raw'], 'r')
+    plt.ylabel("Value")
+    plt.xlabel("Time")
+    pdf.savefig()
+    plt.close()
+
+    # plot value
+    plt.figure(figsize=(20,10))
+    plt.title(idname + " (VALUE)")
+    dates = pltdates.datestr2num(times)
+    plt.plot_date(dates, data[id]['value'], 'b')
+    plt.ylabel("Value")
     plt.xlabel("Time")
     pdf.savefig()
     plt.close()
