@@ -9,7 +9,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 # config data
 outputfile = "output.pdf"
-lastdays = 0
+lastdays = 150
 
 # init S.M.A.R.T. ids
 idstr = { 1: "Raw_Read_Error_Rate",
@@ -122,5 +122,3 @@ with PdfPages(outputfile) as pdf:
     plt.xlabel("Time")
     pdf.savefig()
     plt.close()
-
-    break
