@@ -10,6 +10,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 # config data
 outputfile = "output.pdf"
 lastdays = 0
+event = ""
 
 # init S.M.A.R.T. ids
 idstr = { 1: "Raw_Read_Error_Rate",
@@ -54,6 +55,11 @@ data = {}
 
 # calc last day timestamp
 tslimit = time.time() - (lastdays*24*60*60)
+
+# calc event ts
+if event != "":
+  eventts = time.mktime(datetime.datetime.strptime(event, "%d.%m.%Y %H:%M").timetuple())
+  eventobj = datetime.datetime.fromtimestamp(eventts)
 
 # since smartd uses 2-character-separator (;\t), we need to split ourself
 csvfile = open(source, "r")
@@ -122,9 +128,11 @@ with PdfPages(outputfile) as pdf:
     plt.figure(figsize=(20,10))
     plt.title(idname + " (RAW_VALUE)")
     dates = pltdates.datestr2num(times)
-    plt.plot_date(dates, data[id]['raw'], 'r')
+    plt.plot_date(dates, data[id]['raw'], 'black')
     plt.ylabel("Value")
     plt.xlabel("Time")
+    if event != "":
+      plt.axvline(x=eventobj, color='r', linestyle='--')
     pdf.savefig()
     plt.close()
 
@@ -135,5 +143,7 @@ with PdfPages(outputfile) as pdf:
     plt.plot_date(dates, data[id]['value'], 'b')
     plt.ylabel("Value")
     plt.xlabel("Time")
+    if event != "":
+      plt.axvline(x=eventobj, color='r', linestyle='--')
     pdf.savefig()
     plt.close()
