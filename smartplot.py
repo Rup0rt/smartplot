@@ -9,7 +9,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 # config data
 outputfile = "output.pdf"
-lastdays = 0
+lastdays = 7
 event = "" # FORMAT: "DD.MM.YYYY HH:MM"
 
 # init S.M.A.R.T. ids
@@ -133,6 +133,7 @@ with PdfPages(outputfile) as pdf:
     plt.plot_date(dates, data[id]['raw'], 'black')
     plt.ylabel("Value")
     plt.xlabel("Time")
+    plt.legend(["Raw Value"])
     if event != "":
       plt.axvline(x=eventobj, color='r', linestyle='--')
     pdf.savefig()
@@ -145,6 +146,7 @@ with PdfPages(outputfile) as pdf:
     plt.plot_date(dates, data[id]['value'], 'b')
     plt.ylabel("Value")
     plt.xlabel("Time")
+    plt.legend(["Current Value"])
     if event != "":
       plt.axvline(x=eventobj, color='r', linestyle='--')
     pdf.savefig()
