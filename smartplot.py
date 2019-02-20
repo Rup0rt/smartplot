@@ -126,28 +126,28 @@ with PdfPages(outputfile) as pdf:
 
     print("Plotting " + idname + "...")
 
+    # prepare figure and subplots
+    f, axarr = plt.subplots(2, figsize=(20,10))
+    rawplot = axarr[0]
+    valplot = axarr[1]
+
     # plot raw value
-    plt.figure(figsize=(20,10))
-    plt.title(idname + " (RAW_VALUE)")
+    rawplot.set_title(idname + " (RAW_VALUE)")
     dates = pltdates.datestr2num(times)
-    plt.plot_date(dates, data[id]['raw'], 'black')
-    plt.ylabel("Value")
-    plt.xlabel("Time")
-    plt.legend(["Raw Value"])
+    rawplot.plot_date(dates, data[id]['raw'], 'black')
+    rawplot.set_ylabel("Value")
+    rawplot.legend(["Raw Value"])
     if event != "":
-      plt.axvline(x=eventobj, color='r', linestyle='--')
-    pdf.savefig()
-    plt.close()
+      rawplot.axvline(x=eventobj, color='r', linestyle='--')
 
     # plot value
-    plt.figure(figsize=(20,10))
-    plt.title(idname + " (VALUE)")
+    valplot.set_title(idname + " (VALUE)")
     dates = pltdates.datestr2num(times)
-    plt.plot_date(dates, data[id]['value'], 'b')
-    plt.ylabel("Value")
-    plt.xlabel("Time")
-    plt.legend(["Current Value"])
+    valplot.plot_date(dates, data[id]['value'], 'b')
+    valplot.set_ylabel("Value")
+    valplot.legend(["Current Value"])
     if event != "":
-      plt.axvline(x=eventobj, color='r', linestyle='--')
+      valplot.axvline(x=eventobj, color='r', linestyle='--')
+
+    # save figure to pdf
     pdf.savefig()
-    plt.close()
