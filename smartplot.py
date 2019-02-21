@@ -24,10 +24,13 @@ idstr = { 1: "Raw_Read_Error_Rate",
           10: "Spin_Retry_Count",
           11: "Calibration_Retry_Count",
           12: "Power_Cycle_Count",
+          183: "Runtime_Bad_Block",
           184: "End-to-End_Error",
           187: "Reported_Uncorrect",
           188: "Command_Timeout",
+          189: "High_Fly_Writes",
           190: "Airflow_Temperature_Cel",
+          191: "G-Sense_Error_Rate",
           192: "Power-Off_Retract_Count",
           193: "Load_Cycle_Count",
           194: "Temperature_Celsius",
@@ -38,9 +41,11 @@ idstr = { 1: "Raw_Read_Error_Rate",
           199: "UDMA_CRC_Error_Count",
           200: "Multi_Zone_Error_Rate",
           201: "Soft_Read_Error_Rate",
-          221: "G-Sense_Error_Rate",
           225: "Load-Unload_Cycle_Count",
-          228: "Power-Off_Retract_Cycle" }
+          228: "Power-Off_Retract_Cycle",
+          240: "Head_Flying_Hours",
+          241: "Total_LBAs_Written",
+          242: "Total_LBAs_Read" }
 
 # get filename
 if len(sys.argv) != 2:
@@ -151,3 +156,4 @@ with PdfPages(outputfile) as pdf:
 
     # save figure to pdf
     pdf.savefig()
+    plt.close(f)
