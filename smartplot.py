@@ -9,7 +9,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 # config data
 outputfile = "output.pdf"
-lastdays = 1
+lastdays = 7
 event = "" # FORMAT: "DD.MM.YYYY HH:MM"
 
 # init S.M.A.R.T. ids
@@ -96,6 +96,16 @@ while True:
     id = int(attrs[0])
     value = int(attrs[1])
     rawvalue = int(attrs[2])
+
+    # some hdds give multiple values masked into one raw value
+    # to only get the important one (for now), filter those values
+
+    # Airflow_Temperature_Cel (degrees are last 8 bits)
+    if id == 190: rawvalue = rawvalue & 0xff
+    # Temperature_Celsius (degrees are last 8 bits)
+    if id == 194: rawvalue = rawvalue & 0xff
+    # Head_Flying_Hours (hours are last 32 bits)
+    if id == 240: rawvalue = rawvalue & 0xffffffff
 
     # prepare array
     if not id in data:
