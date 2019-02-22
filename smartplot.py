@@ -82,6 +82,10 @@ if options.event != None:
     print("WARNING: Event date is outside of plot limit.")
   eventobj = datetime.datetime.fromtimestamp(eventts)
 
+
+# force matlibplot to not use any x backends
+plt.switch_backend('agg')
+
 # since smartd uses 2-character-separator (;\t), we need to split ourself
 csvfile = open(sourcefile, "r")
 while True:
