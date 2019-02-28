@@ -10,7 +10,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from optparse import OptionParser
 
 # greetings line
-version = "1.0"
+version = "1.1"
 print("smartplot v" + version + " (c) 2019 Robert Krause <ruport@f00l.de>\n")
 
 # parse options and arguments
@@ -18,7 +18,8 @@ parser = OptionParser(usage="usage: %prog [options] <inputfile>")
 parser.add_option("-o", "--output", dest="outputfile", help="write report to FILE", metavar="FILE", type="string", default="report.pdf")
 parser.add_option("-f", "--format", dest="format", help="choose output format (PDF or PNG)", metavar="format", type="string", default="PDF")
 parser.add_option("-e", "--event", dest="event", help="mark event in graphs (format: DD.MM.YYYY-HH:MM", metavar="DATE", type="string", default=None)
-parser.add_option("-d", "--days", dest="lastdays", help="only handle last days beginning today", metavar="DAYS", type="int", default=None)
+parser.add_option("-d", "--days", dest="lastdays", help="only handle last days until today", metavar="DAYS", type="int", default=None)
+parser.add_option("-s", "--seagate", dest="seagate", help="interpret values with seagate calculation", action="store_true", default=False)
 
 (options, args) = parser.parse_args()
 
@@ -123,6 +124,20 @@ while True:
     if id == 194: rawvalue = rawvalue & 0xff
     # Head_Flying_Hours (hours are last 32 bits)
     if id == 240: rawvalue = rawvalue & 0xffffffff
+
+    # SEAGATE
+    if options.seagate:
+      # raw read error is 48 bits for seagate
+      # upper 16 bits are read error counter
+      # lower 32 bits are read counter
+      if id == 1:
+        rawvalue = rawvalue >> 32;
+
+      # seek error is 48 bits for seagate
+      # upper 16 bits are seek error counter
+      # lower 32 bits are seek counter
+      if id == 7:
+        rawvalue = rawvalue >> 32;
 
     # prepare array
     if not id in data:
