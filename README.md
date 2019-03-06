@@ -6,7 +6,9 @@ You need to supply a attrlog-CSV file.
 Project homepage: https://f00l.de/smartplot/  
 Online Version: https://f00l.de/hacking/smartplot.php
 
-For examples see /examples/
+For examples see /examples/  
+It looks like:  
+![Analysis of Temperature_Celsius to check for potential temperature problems.](https://github.com/Rup0rt/smartplot/blob/master/examples/temperature.png?raw=true "Analysis of Temperature_Celsius to check for potential temperature problems.")
 
 ### Help output
 
